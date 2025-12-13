@@ -1,11 +1,10 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useState, Suspense } from "react"
 import { useSearchParams } from "next/navigation"
 import { Header } from "@/components/layout/header"
 import { Sidebar } from "@/components/layout/sidebar"
 import { MobileNav } from "@/components/layout/mobile-nav"
-import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -39,7 +38,33 @@ interface Message {
   created_at: string
 }
 
+// Wrapper component to handle Suspense
 export default function MessagesPage() {
+  return (
+    <Suspense fallback={<MessagesPageLoading />}>
+      <MessagesPageContent />
+    </Suspense>
+  )
+}
+
+function MessagesPageLoading() {
+  return (
+    <div className="min-h-screen bg-background">
+      <Header />
+      <div className="flex">
+        <Sidebar />
+        <main className="flex-1 pb-20 lg:pb-0">
+          <div className="h-[calc(100vh-64px)] flex items-center justify-center">
+            <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+          </div>
+        </main>
+      </div>
+      <MobileNav />
+    </div>
+  )
+}
+
+function MessagesPageContent() {
   const { user } = useAuth()
   const searchParams = useSearchParams()
   const conversationParam = searchParams.get("conversation")
