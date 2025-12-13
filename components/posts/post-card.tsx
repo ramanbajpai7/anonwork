@@ -2,12 +2,13 @@
 
 import { useState } from "react"
 import type { Post } from "@/lib/types"
-import { MessageCircle, ThumbsUp, ThumbsDown, Share2, Flag, Bookmark, BookmarkCheck, Loader2, Check } from "lucide-react"
+import { MessageCircle, ThumbsUp, ThumbsDown, Share2, Flag, Bookmark, BookmarkCheck, Loader2, Check, Send } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { formatDistanceToNow } from "date-fns"
 import { useAuth } from "@/hooks/use-auth"
+import { UserAvatar, QuickMessageButton } from "@/components/messaging/user-avatar"
 
 interface PostCardProps {
   post: Post & {
@@ -18,6 +19,7 @@ interface PostCardProps {
       profile_photo_url?: string
       display_name?: string
     }
+    author_id?: string
     author_anon_username?: string
     author_is_verified?: boolean
     author_profile_photo?: string
@@ -42,6 +44,7 @@ export function PostCard({ post, onVote, onBookmarkChange, showBookmark = true }
   const [shareSuccess, setShareSuccess] = useState(false)
 
   // Get author info (support both formats)
+  const authorId = post.author?.id || post.author_id
   const authorUsername = post.author?.anon_username || post.author_anon_username || "Anonymous"
   const authorVerified = post.author?.is_verified_employee || post.author_is_verified
   const authorPhoto = post.author?.profile_photo_url || post.author_profile_photo
@@ -110,19 +113,15 @@ export function PostCard({ post, onVote, onBookmarkChange, showBookmark = true }
         {/* Header */}
         <div className="flex items-center justify-between mb-3">
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 bg-gradient-to-br from-violet-500 to-purple-600 rounded-full flex items-center justify-center text-xs font-semibold text-white overflow-hidden">
-              {authorPhoto ? (
-                <Image
-                  src={authorPhoto}
-                  alt={authorDisplayName || authorUsername}
-                  width={32}
-                  height={32}
-                  className="w-full h-full object-cover"
-                />
-              ) : (
-                authorUsername.slice(5, 7).toUpperCase()
-              )}
-            </div>
+            <UserAvatar
+              userId={authorId}
+              username={authorUsername}
+              displayName={authorDisplayName}
+              photoUrl={authorPhoto}
+              isVerified={authorVerified}
+              size="sm"
+              showMessageOnClick={true}
+            />
             <div className="flex flex-col">
               <div className="flex items-center gap-2">
                 <span className="font-semibold text-sm">
@@ -197,6 +196,15 @@ export function PostCard({ post, onVote, onBookmarkChange, showBookmark = true }
             <MessageCircle className="w-4 h-4 mr-1" />
             Comment
           </Button>
+          {authorId && (
+            <QuickMessageButton
+              userId={authorId}
+              username={authorUsername}
+              displayName={authorDisplayName}
+              photoUrl={authorPhoto}
+              isVerified={authorVerified}
+            />
+          )}
           {showBookmark && user && (
             <Button
               variant="ghost"

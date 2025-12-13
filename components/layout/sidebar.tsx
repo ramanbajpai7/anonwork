@@ -13,12 +13,14 @@ import {
   Search,
   Star,
   User,
-  Settings
+  Settings,
+  Bell
 } from "lucide-react"
 
 const navItems = [
   { href: "/dashboard", label: "Home", icon: Home },
   { href: "/topics", label: "Topics", icon: Hash },
+  { href: "/notifications", label: "Notifications", icon: Bell },
   { href: "/salaries", label: "Salaries", icon: DollarSign },
   { href: "/reviews", label: "Reviews", icon: Star },
   { href: "/companies", label: "Companies", icon: Building2 },

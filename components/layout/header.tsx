@@ -3,7 +3,8 @@
 import Link from "next/link"
 import { useAuth } from "@/hooks/use-auth"
 import { Button } from "@/components/ui/button"
-import { LogOut, User, Home } from "lucide-react"
+import { LogOut, User, Home, MessageSquare } from "lucide-react"
+import { NotificationBell } from "@/components/notifications/notification-bell"
 
 interface HeaderProps {
   showAuthButtons?: boolean
@@ -42,14 +43,19 @@ export function Header({ showAuthButtons = false, rightContent }: HeaderProps) {
           )}
 
           {user && (
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-1">
               <Link href="/dashboard">
-                <Button variant="ghost" size="sm" className="gap-2">
+                <Button variant="ghost" size="icon" title="Dashboard">
                   <Home className="h-4 w-4" />
-                  <span className="hidden sm:inline">Dashboard</span>
                 </Button>
               </Link>
-              <div className="flex items-center gap-2 px-3 py-1.5 bg-muted rounded-full">
+              <NotificationBell />
+              <Link href="/messages">
+                <Button variant="ghost" size="icon" title="Messages" className="relative">
+                  <MessageSquare className="h-4 w-4" />
+                </Button>
+              </Link>
+              <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 bg-muted rounded-full ml-1">
                 <User className="h-4 w-4 text-muted-foreground" />
                 <span className="text-sm font-medium">{user.anon_username}</span>
               </div>

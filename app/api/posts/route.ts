@@ -2,6 +2,7 @@ import { type NextRequest, NextResponse } from "next/server"
 import { query } from "@/lib/neon"
 import { verifyToken } from "@/lib/auth"
 import { cookies } from "next/headers"
+import { createNotification, notifyMentions } from "@/lib/notifications"
 
 export async function GET(request: NextRequest) {
   try {
@@ -175,6 +176,21 @@ export async function POST(request: NextRequest) {
     } catch {
       // Column doesn't exist yet
     }
+
+    // Send confirmation notification to the post author
+    const authorUsername = userInfo[0]?.anon_username || "You"
+    const postTitle = title || body.slice(0, 50) + (body.length > 50 ? "..." : "")
+    
+    await createNotification(
+      userId,
+      "milestone",
+      "Your post has been published! 🎉",
+      postTitle,
+      { postId: newPost.id, postTitle }
+    )
+
+    // Check for @mentions in the post body
+    await notifyMentions(body, userId, authorUsername, newPost.id, postTitle, "post")
 
     const responsePost = {
       ...newPost,

@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react"
+import { useSearchParams } from "next/navigation"
 import { Header } from "@/components/layout/header"
 import { Sidebar } from "@/components/layout/sidebar"
 import { MobileNav } from "@/components/layout/mobile-nav"
@@ -40,6 +41,9 @@ interface Message {
 
 export default function MessagesPage() {
   const { user } = useAuth()
+  const searchParams = useSearchParams()
+  const conversationParam = searchParams.get("conversation")
+  
   const [conversations, setConversations] = useState<Conversation[]>([])
   const [selectedConvo, setSelectedConvo] = useState<string | null>(null)
   const [messages, setMessages] = useState<Message[]>([])
@@ -59,6 +63,14 @@ export default function MessagesPage() {
   useEffect(() => {
     fetchConversations()
   }, [])
+
+  // Handle URL parameter for direct conversation access
+  useEffect(() => {
+    if (conversationParam && !loading) {
+      setSelectedConvo(conversationParam)
+      fetchMessages(conversationParam)
+    }
+  }, [conversationParam, loading])
 
   async function fetchConversations() {
     try {

@@ -2,6 +2,7 @@ import { type NextRequest, NextResponse } from "next/server"
 import { query } from "@/lib/neon"
 import { verifyToken } from "@/lib/auth"
 import { cookies } from "next/headers"
+import { notifyComment, notifyReply, notifyMentions } from "@/lib/notifications"
 
 export async function GET(
   request: NextRequest,
@@ -114,6 +115,49 @@ export async function POST(
       author_is_verified: users[0]?.is_verified_employee,
       author_profile_photo: users[0]?.profile_photo_url,
       author_display_name: displayName
+    }
+
+    // Get post info for notifications
+    const posts = await query(
+      "SELECT author_id, title FROM posts WHERE id = $1",
+      [id]
+    )
+    const post = posts[0]
+
+    if (post) {
+      const commenterUsername = users[0]?.anon_username || "Someone"
+      const postTitle = post.title || "your post"
+
+      // Notify post author about the comment
+      if (!parent_comment_id) {
+        await notifyComment(
+          post.author_id,
+          userId,
+          commenterUsername,
+          id,
+          postTitle,
+          body
+        )
+      } else {
+        // This is a reply - notify the parent comment author
+        const parentComments = await query(
+          "SELECT author_id FROM comments WHERE id = $1",
+          [parent_comment_id]
+        )
+        if (parentComments.length > 0) {
+          await notifyReply(
+            parentComments[0].author_id,
+            userId,
+            commenterUsername,
+            id,
+            postTitle,
+            body
+          )
+        }
+      }
+
+      // Check for @mentions in the comment
+      await notifyMentions(body, userId, commenterUsername, id, postTitle, "comment")
     }
 
     return NextResponse.json({ comment }, { status: 201 })

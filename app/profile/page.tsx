@@ -71,7 +71,15 @@ export default function ProfilePage() {
   useEffect(() => {
     async function fetchStats() {
       if (!user) return;
-      // Fetch user stats here if needed
+      try {
+        const res = await fetch("/api/users/stats");
+        if (res.ok) {
+          const data = await res.json();
+          setStats({ posts: data.posts || 0, comments: data.comments || 0 });
+        }
+      } catch (error) {
+        console.error("Failed to fetch stats:", error);
+      }
     }
     fetchStats();
   }, [user]);

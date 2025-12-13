@@ -2,6 +2,7 @@ import { type NextRequest, NextResponse } from "next/server"
 import { query } from "@/lib/neon"
 import { verifyToken } from "@/lib/auth"
 import { cookies } from "next/headers"
+import { notifyUpvote } from "@/lib/notifications"
 
 export async function POST(
   request: NextRequest,
@@ -63,6 +64,34 @@ export async function POST(
     const score = parseInt(votesResult[0]?.score || "0")
 
     await query("UPDATE posts SET score = $1 WHERE id = $2", [score, id])
+
+    // Notify post author about upvote (only for upvotes, not downvotes)
+    if (vote === 1) {
+      // Get post and voter info
+      const posts = await query(
+        "SELECT author_id, title FROM posts WHERE id = $1",
+        [id]
+      )
+      const voterInfo = await query(
+        "SELECT anon_username FROM users WHERE id = $1",
+        [userId]
+      )
+      
+      if (posts.length > 0 && voterInfo.length > 0) {
+        const post = posts[0]
+        const voterUsername = voterInfo[0].anon_username || "Someone"
+        const postTitle = post.title || "your post"
+        
+        await notifyUpvote(
+          post.author_id,
+          userId,
+          voterUsername,
+          id,
+          postTitle,
+          score
+        )
+      }
+    }
 
     return NextResponse.json({ vote: voteRecord, score })
   } catch (error) {

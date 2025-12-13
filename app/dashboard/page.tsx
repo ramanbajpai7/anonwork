@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button"
 import { Header } from "@/components/layout/header"
 import { Sidebar } from "@/components/layout/sidebar"
 import { MobileNav } from "@/components/layout/mobile-nav"
+import { MessagesWidget } from "@/components/messaging/messages-widget"
 import { redirect } from "next/navigation"
 import { PenSquare, TrendingUp, Clock, Plus } from "lucide-react"
 
@@ -75,12 +76,14 @@ export default function DashboardPage() {
         <Sidebar />
         
         <main className="flex-1 p-4 lg:p-8 pb-20 lg:pb-8">
-          <div className="max-w-3xl mx-auto">
-            {/* Welcome */}
-            <div className="mb-6">
-              <h1 className="text-2xl font-bold">Welcome back, {user?.anon_username}!</h1>
-              <p className="text-muted-foreground">Here's what's happening in your community</p>
-            </div>
+          <div className="max-w-5xl mx-auto flex gap-6">
+            {/* Main Content */}
+            <div className="flex-1 max-w-3xl">
+              {/* Welcome */}
+              <div className="mb-6">
+                <h1 className="text-2xl font-bold">Welcome back, {user?.anon_username}!</h1>
+                <p className="text-muted-foreground">Here's what's happening in your community</p>
+              </div>
 
             {/* Feed Filters */}
             <div className="flex gap-2 mb-6">
@@ -128,6 +131,12 @@ export default function DashboardPage() {
                   />
                 </div>
               )}
+            </div>
+            </div>
+
+            {/* Right Sidebar - Messages Widget */}
+            <div className="hidden xl:block w-72 space-y-4 shrink-0">
+              <MessagesWidget />
             </div>
           </div>
         </main>

@@ -9,7 +9,7 @@ import { Card } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { Building2, Search, Shield, Globe, Loader2 } from "lucide-react"
+import { Building2, Search, Shield, Globe, Loader2, MapPin, Phone, ExternalLink } from "lucide-react"
 import Link from "next/link"
 import { useAuth } from "@/hooks/use-auth"
 
@@ -83,28 +83,63 @@ export default function CompaniesPage() {
                 Loading companies...
               </div>
             ) : companies.length > 0 ? (
-              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+              <div className="grid md:grid-cols-2 gap-4">
                 {companies.map((company) => (
                   <Card key={company.id} className="p-5 hover:shadow-lg transition-shadow">
                     <div className="flex items-start gap-4">
-                      <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl flex items-center justify-center text-white font-bold text-lg flex-shrink-0">
+                      <div className="w-14 h-14 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl flex items-center justify-center text-white font-bold text-xl flex-shrink-0">
                         {company.name.charAt(0)}
                       </div>
                       <div className="flex-1 min-w-0">
-                        <div className="flex items-center gap-2">
-                          <h3 className="font-semibold truncate">{company.name}</h3>
+                        <div className="flex items-center gap-2 flex-wrap">
+                          <h3 className="font-semibold">{company.name}</h3>
                           {company.verified && (
                             <Badge variant="secondary" className="gap-1 flex-shrink-0">
                               <Shield className="h-3 w-3" />
+                              Verified
+                            </Badge>
+                          )}
+                          {company.industry && (
+                            <Badge variant="outline" className="flex-shrink-0">
+                              {company.industry}
                             </Badge>
                           )}
                         </div>
-                        {company.domain && (
-                          <div className="flex items-center gap-1 text-sm text-muted-foreground mt-1">
-                            <Globe className="h-3 w-3" />
-                            <span className="truncate">{company.domain}</span>
+                        
+                        {/* Address */}
+                        {company.address && (
+                          <div className="flex items-start gap-1.5 text-sm text-muted-foreground mt-2">
+                            <MapPin className="h-3.5 w-3.5 mt-0.5 flex-shrink-0" />
+                            <span className="line-clamp-2">{company.address}</span>
                           </div>
                         )}
+                        
+                        {/* Phone & Website Row */}
+                        <div className="flex flex-wrap gap-x-4 gap-y-1 mt-2">
+                          {company.phone && (
+                            <div className="flex items-center gap-1 text-sm text-muted-foreground">
+                              <Phone className="h-3 w-3" />
+                              <span>{company.phone}</span>
+                            </div>
+                          )}
+                          {company.website && (
+                            <a 
+                              href={company.website.startsWith('http') ? company.website : `https://${company.website}`}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="flex items-center gap-1 text-sm text-blue-500 hover:underline"
+                            >
+                              <ExternalLink className="h-3 w-3" />
+                              <span>Website</span>
+                            </a>
+                          )}
+                          {company.domain && (
+                            <div className="flex items-center gap-1 text-sm text-muted-foreground">
+                              <Globe className="h-3 w-3" />
+                              <span>{company.domain}</span>
+                            </div>
+                          )}
+                        </div>
                       </div>
                     </div>
                     <div className="mt-4 flex gap-2">

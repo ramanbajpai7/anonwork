@@ -31,6 +31,13 @@ export interface Company {
   id: string
   name: string
   domain?: string
+  address?: string
+  phone?: string
+  website?: string
+  logo_url?: string
+  description?: string
+  employee_count?: string
+  industry?: string
   verified: boolean
   created_at: string
   updated_at: string
