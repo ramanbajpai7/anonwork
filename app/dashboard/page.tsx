@@ -89,7 +89,7 @@ export default function DashboardPage() {
                   Welcome back, {user?.anon_username}!
                 </h1>
                 <p className="text-muted-foreground">
-                  Here's what's happening in community
+                  Here's what is happening in community
                 </p>
               </div>
 
