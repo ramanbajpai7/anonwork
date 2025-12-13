@@ -1,0 +1,28 @@
+{
+  "name": "AnonWork - Anonymous Professional Community",
+  "short_name": "AnonWork",
+  "description": "Join the #1 anonymous professional community. Share insights, discuss salaries, and connect with verified professionals.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#1a1625",
+  "theme_color": "#8b5cf6",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/icon.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["social", "business", "productivity"],
+  "lang": "en-US",
+  "dir": "ltr"
+}
+
