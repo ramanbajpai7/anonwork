@@ -38,7 +38,7 @@ interface Message {
   created_at: string
 }
 
-// Wrapper component to handle Suspense
+// Wrapper component with Suspense boundary for useSearchParams
 export default function MessagesPage() {
   return (
     <Suspense fallback={<MessagesPageLoading />}>
