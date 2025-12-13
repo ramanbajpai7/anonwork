@@ -11,12 +11,12 @@ const inter = Inter({
 
 // Comprehensive SEO Metadata for AnonWork
 export const metadata: Metadata = {
-  // Basic metadata
+  // Basic metadata - optimized for "anonwork" searches
   title: {
-    default: "AnonWork - Anonymous Professional Community | Speak Freely, Stay Anonymous",
+    default: "AnonWork | Anonymous Professional Community - Speak Freely, Stay Anonymous",
     template: "%s | AnonWork",
   },
-  description: "Join the #1 anonymous professional community. Share insights, discuss salaries, review companies, and connect with verified professionals - all while staying completely anonymous. Free to join.",
+  description: "AnonWork is the #1 anonymous professional community. Share insights, discuss salaries, review companies, and connect with verified professionals - all while staying completely anonymous. Free to join.",
   
   // Application info
   applicationName: "AnonWork",
@@ -139,16 +139,22 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         
-        {/* Structured Data for Google - WebSite */}
+        {/* Structured Data for Google - WebSite (controls site name display) */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({
               "@context": "https://schema.org",
               "@type": "WebSite",
+              "@id": "https://www.anonwork.tech/#website",
               name: "AnonWork",
+              alternateName: ["Anon Work", "AnonWork.tech", "Anonwork"],
               url: "https://www.anonwork.tech",
               description: "The #1 anonymous professional community for sharing insights, salaries, and company reviews.",
+              inLanguage: "en-US",
+              publisher: {
+                "@id": "https://www.anonwork.tech/#organization"
+              },
               potentialAction: {
                 "@type": "SearchAction",
                 target: {
@@ -168,11 +174,23 @@ export default function RootLayout({
             __html: JSON.stringify({
               "@context": "https://schema.org",
               "@type": "Organization",
+              "@id": "https://www.anonwork.tech/#organization",
               name: "AnonWork",
+              alternateName: "Anonwork",
               url: "https://www.anonwork.tech",
-              logo: "https://www.anonwork.tech/icon.png",
-              sameAs: [],
-              description: "Anonymous professional community for workplace discussions, salary sharing, and company reviews."
+              logo: {
+                "@type": "ImageObject",
+                "@id": "https://www.anonwork.tech/#logo",
+                url: "https://www.anonwork.tech/icon.png",
+                contentUrl: "https://www.anonwork.tech/icon.png",
+                width: 512,
+                height: 512,
+                caption: "AnonWork"
+              },
+              image: { "@id": "https://www.anonwork.tech/#logo" },
+              description: "Anonymous professional community for workplace discussions, salary sharing, and company reviews.",
+              foundingDate: "2024",
+              slogan: "Speak Freely, Stay Anonymous"
             }),
           }}
         />
