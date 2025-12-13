@@ -2,10 +2,8 @@ import { type NextRequest, NextResponse } from "next/server"
 import { query } from "@/lib/neon"
 import { verifyToken } from "@/lib/auth"
 import { cookies } from "next/headers"
-import { writeFile, mkdir } from "fs/promises"
-import path from "path"
 
-// Upload profile photo
+// Upload profile photo - stores as Base64 data URL in database
 export async function POST(request: NextRequest) {
   try {
     const cookieStore = await cookies()
@@ -33,40 +31,29 @@ export async function POST(request: NextRequest) {
       }, { status: 400 })
     }
 
-    // Validate file size (max 5MB)
-    const maxSize = 5 * 1024 * 1024
+    // Validate file size (max 2MB for Base64 storage)
+    const maxSize = 2 * 1024 * 1024
     if (file.size > maxSize) {
       return NextResponse.json({ 
-        message: "File too large. Maximum size is 5MB." 
+        message: "File too large. Maximum size is 2MB." 
       }, { status: 400 })
     }
 
-    // Create uploads directory if it doesn't exist
-    const uploadsDir = path.join(process.cwd(), "public", "uploads", "avatars")
-    await mkdir(uploadsDir, { recursive: true })
-
-    // Generate unique filename
-    const ext = file.name.split(".").pop() || "jpg"
-    const filename = `${userId}-${Date.now()}.${ext}`
-    const filepath = path.join(uploadsDir, filename)
-
-    // Save file
+    // Convert file to Base64 data URL
     const bytes = await file.arrayBuffer()
     const buffer = Buffer.from(bytes)
-    await writeFile(filepath, buffer)
-
-    // URL for the uploaded image
-    const photoUrl = `/uploads/avatars/${filename}`
+    const base64 = buffer.toString("base64")
+    const dataUrl = `data:${file.type};base64,${base64}`
 
     // Update user's profile photo in database
     await query(
       `UPDATE users SET profile_photo_url = $1, updated_at = NOW() WHERE id = $2`,
-      [photoUrl, userId]
+      [dataUrl, userId]
     )
 
     return NextResponse.json({ 
       message: "Profile photo updated successfully",
-      photo_url: photoUrl
+      photo_url: dataUrl
     })
   } catch (error) {
     console.error("Upload profile photo error:", error)
@@ -99,4 +86,3 @@ export async function DELETE(request: NextRequest) {
     return NextResponse.json({ message: "Internal server error" }, { status: 500 })
   }
 }
-
