@@ -11,7 +11,14 @@ import { Sidebar } from "@/components/layout/sidebar";
 import { MobileNav } from "@/components/layout/mobile-nav";
 import { MessagesWidget } from "@/components/messaging/messages-widget";
 import { redirect } from "next/navigation";
-import { PenSquare, TrendingUp, Clock, Plus } from "lucide-react";
+import Image from "next/image";
+import {
+  PenSquare,
+  TrendingUp,
+  Clock,
+  Plus,
+  Loader2,
+} from "lucide-react";
 
 export default function DashboardPage() {
   const { user, loading: authLoading } = useAuth();
@@ -51,23 +58,33 @@ export default function DashboardPage() {
 
   if (authLoading) {
     return (
-      <div className="min-h-screen bg-background">
+      <div className="min-h-screen bg-background bg-pattern">
         <Header />
         <div className="flex items-center justify-center min-h-[60vh]">
-          Loading...
+          <div className="flex flex-col items-center gap-4">
+            <div className="relative">
+              <div className="w-16 h-16 rounded-2xl gradient-bg flex items-center justify-center">
+                <Loader2 className="h-8 w-8 text-white animate-spin" />
+              </div>
+              <div className="absolute inset-0 gradient-bg rounded-2xl blur-xl opacity-50" />
+            </div>
+            <p className="text-muted-foreground font-medium">
+              Loading your feed...
+            </p>
+          </div>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background bg-pattern">
       <Header
         rightContent={
           <CreatePostDialog
             onPostCreated={handlePostCreated}
             trigger={
-              <Button className="gap-2">
+              <Button className="gap-2 gradient-bg text-white shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 btn-press border-0">
                 <PenSquare className="h-4 w-4" />
                 <span className="hidden sm:inline">Create Post</span>
               </Button>
@@ -83,14 +100,32 @@ export default function DashboardPage() {
           <div className="max-w-5xl mx-auto flex gap-6">
             {/* Main Content */}
             <div className="flex-1 max-w-3xl">
-              {/* Welcome */}
-              <div className="mb-6">
-                <h1 className="text-2xl font-bold">
-                  Welcome back, {user?.anon_username}!
-                </h1>
-                <p className="text-muted-foreground">
-                  Here's what is happening in community
-                </p>
+              {/* Welcome Card */}
+              <div className="mb-8 p-6 rounded-2xl glass border border-border/50 card-hover">
+                <div className="flex items-start justify-between">
+                  <div>
+                    <div className="flex items-center gap-2 mb-2">
+                      <h1 className="text-2xl font-bold">
+                        Welcome back
+                        <span className="gradient-text ml-2">
+                          {user?.display_name || user?.anon_username}!
+                        </span>
+                      </h1>
+                      <Image src="/icon.png" alt="AnonWork" width={24} height={24} className="rounded" />
+                    </div>
+                    <p className="text-muted-foreground">
+                      Here's what's happening in your community today
+                    </p>
+                  </div>
+                  <div className="hidden sm:flex items-center gap-3">
+                    <div className="text-right">
+                      <p className="text-2xl font-bold gradient-text">
+                        {posts.length}
+                      </p>
+                      <p className="text-xs text-muted-foreground">New Posts</p>
+                    </div>
+                  </div>
+                </div>
               </div>
 
               {/* Feed Filters */}
@@ -98,7 +133,11 @@ export default function DashboardPage() {
                 <Button
                   variant={feedType === "recent" ? "default" : "outline"}
                   onClick={() => setFeedType("recent")}
-                  className="gap-2"
+                  className={`gap-2 rounded-xl transition-all duration-300 ${
+                    feedType === "recent"
+                      ? "gradient-bg text-white shadow-lg border-0"
+                      : "glass hover:bg-primary/10"
+                  }`}
                 >
                   <Clock className="h-4 w-4" />
                   Recent
@@ -106,7 +145,11 @@ export default function DashboardPage() {
                 <Button
                   variant={feedType === "popular" ? "default" : "outline"}
                   onClick={() => setFeedType("popular")}
-                  className="gap-2"
+                  className={`gap-2 rounded-xl transition-all duration-300 ${
+                    feedType === "popular"
+                      ? "gradient-bg text-white shadow-lg border-0"
+                      : "glass hover:bg-primary/10"
+                  }`}
                 >
                   <TrendingUp className="h-4 w-4" />
                   Popular
@@ -116,26 +159,50 @@ export default function DashboardPage() {
               {/* Posts List */}
               <div className="space-y-4">
                 {loading ? (
-                  <div className="text-center py-8 text-muted-foreground">
-                    Loading posts...
+                  <div className="flex flex-col items-center justify-center py-16">
+                    <div className="relative mb-4">
+                      <div className="w-12 h-12 rounded-xl gradient-bg flex items-center justify-center">
+                        <Loader2 className="h-6 w-6 text-white animate-spin" />
+                      </div>
+                      <div className="absolute inset-0 gradient-bg rounded-xl blur-lg opacity-40" />
+                    </div>
+                    <p className="text-muted-foreground font-medium">
+                      Loading posts...
+                    </p>
                   </div>
                 ) : posts.length > 0 ? (
-                  posts.map((post) => (
-                    <PostCard key={post.id} post={post as any} />
+                  posts.map((post, index) => (
+                    <div
+                      key={post.id}
+                      className="fade-in opacity-0"
+                      style={{
+                        animationDelay: `${index * 100}ms`,
+                        animationFillMode: "forwards",
+                      }}
+                    >
+                      <PostCard post={post as any} />
+                    </div>
                   ))
                 ) : (
-                  <div className="text-center py-16 bg-card rounded-xl border border-border">
-                    <div className="w-16 h-16 bg-primary/10 rounded-full mx-auto mb-4 flex items-center justify-center">
-                      <PenSquare className="h-8 w-8 text-primary" />
+                  <div className="text-center py-16 glass rounded-2xl border border-border/50">
+                    <div className="relative w-20 h-20 mx-auto mb-6">
+                      <div className="w-20 h-20 rounded-2xl gradient-bg flex items-center justify-center">
+                        <PenSquare className="h-10 w-10 text-white" />
+                      </div>
+                      <div className="absolute inset-0 gradient-bg rounded-2xl blur-xl opacity-40" />
                     </div>
-                    <h3 className="text-xl font-semibold mb-2">No posts yet</h3>
-                    <p className="text-muted-foreground mb-6">
-                      Be the first to share something with the community!
+                    <h3 className="text-xl font-bold mb-2">No posts yet</h3>
+                    <p className="text-muted-foreground mb-6 max-w-sm mx-auto">
+                      Be the first to share something amazing with the
+                      community!
                     </p>
                     <CreatePostDialog
                       onPostCreated={handlePostCreated}
                       trigger={
-                        <Button size="lg" className="gap-2">
+                        <Button
+                          size="lg"
+                          className="gap-2 gradient-bg text-white shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 btn-press border-0"
+                        >
                           <Plus className="h-5 w-5" />
                           Create Your First Post
                         </Button>
@@ -148,7 +215,9 @@ export default function DashboardPage() {
 
             {/* Right Sidebar - Messages Widget */}
             <div className="hidden xl:block w-72 space-y-4 shrink-0">
-              <MessagesWidget />
+              <div className="sticky top-24">
+                <MessagesWidget />
+              </div>
             </div>
           </div>
         </main>

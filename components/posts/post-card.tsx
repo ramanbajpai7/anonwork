@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import type { Post } from "@/lib/types"
-import { MessageCircle, ThumbsUp, ThumbsDown, Share2, Flag, Bookmark, BookmarkCheck, Loader2, Check, Send } from "lucide-react"
+import { MessageCircle, ThumbsUp, ThumbsDown, Share2, Bookmark, BookmarkCheck, Loader2, Check, ArrowUp, Eye } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
@@ -42,6 +42,7 @@ export function PostCard({ post, onVote, onBookmarkChange, showBookmark = true }
   const [voteLoading, setVoteLoading] = useState(false)
   const [currentScore, setCurrentScore] = useState(post.score || post.vote_sum || 0)
   const [shareSuccess, setShareSuccess] = useState(false)
+  const [isHovered, setIsHovered] = useState(false)
 
   // Get author info (support both formats)
   const authorId = post.author?.id || post.author_id
@@ -109,9 +110,16 @@ export function PostCard({ post, onVote, onBookmarkChange, showBookmark = true }
 
   return (
     <Link href={`/posts/${post.id}`}>
-      <div className="border border-border rounded-lg p-4 hover:shadow-md transition-shadow bg-card">
+      <div 
+        className="glass border border-border/50 rounded-2xl p-5 card-hover group relative overflow-hidden"
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+      >
+        {/* Gradient accent on hover */}
+        <div className={`absolute top-0 left-0 w-full h-1 gradient-bg transition-all duration-300 ${isHovered ? 'opacity-100' : 'opacity-0'}`} />
+        
         {/* Header */}
-        <div className="flex items-center justify-between mb-3">
+        <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-3">
             <UserAvatar
               userId={authorId}
@@ -124,11 +132,13 @@ export function PostCard({ post, onVote, onBookmarkChange, showBookmark = true }
             />
             <div className="flex flex-col">
               <div className="flex items-center gap-2">
-                <span className="font-semibold text-sm">
+                <span className="font-semibold text-sm group-hover:text-primary transition-colors">
                   {authorDisplayName || authorUsername}
                 </span>
                 {authorVerified && (
-                  <span className="text-xs bg-blue-100 text-blue-700 px-2 py-0.5 rounded">✓ Verified</span>
+                  <span className="text-xs bg-gradient-to-r from-blue-500/20 to-cyan-500/20 text-blue-600 px-2 py-0.5 rounded-full font-medium">
+                    ✓ Verified
+                  </span>
                 )}
               </div>
               <div className="flex items-center gap-2">
@@ -143,39 +153,57 @@ export function PostCard({ post, onVote, onBookmarkChange, showBookmark = true }
           </div>
           <div className="flex items-center gap-2">
             {post.topic && (
-              <span className="text-xs bg-muted px-2 py-1 rounded text-muted-foreground">
+              <span className="text-xs bg-gradient-to-r from-primary/10 to-accent/10 px-3 py-1.5 rounded-full text-foreground font-medium">
                 {post.topic.icon} {post.topic.name}
               </span>
             )}
             {post.channel && !post.topic && (
-              <span className="text-xs bg-muted px-2 py-1 rounded text-muted-foreground">{post.channel.name}</span>
+              <span className="text-xs bg-muted px-3 py-1.5 rounded-full text-muted-foreground font-medium">
+                {post.channel.name}
+              </span>
             )}
           </div>
         </div>
 
         {/* Content */}
-        {post.title && <h3 className="text-lg font-semibold mb-2 text-foreground">{post.title}</h3>}
-        <p className="text-foreground mb-4 line-clamp-3">{post.body}</p>
+        {post.title && (
+          <h3 className="text-lg font-bold mb-2 text-foreground group-hover:gradient-text transition-all duration-300">
+            {post.title}
+          </h3>
+        )}
+        <p className="text-foreground/80 mb-4 line-clamp-3 leading-relaxed">{post.body}</p>
 
-        {/* Meta */}
-        <div className="flex items-center gap-4 text-sm text-muted-foreground">
-          <span className="flex items-center gap-1">
+        {/* Meta Stats */}
+        <div className="flex items-center gap-4 text-sm text-muted-foreground mb-4">
+          <div className="flex items-center gap-1.5 px-3 py-1.5 bg-muted/50 rounded-full">
             <MessageCircle className="h-4 w-4" />
-            {post.comment_count || 0} comments
-          </span>
-          <span>⬆️ {currentScore} points</span>
+            <span className="font-medium">{post.comment_count || 0}</span>
+          </div>
+          <div className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full ${
+            currentScore > 0 ? 'bg-green-500/10 text-green-600' : 
+            currentScore < 0 ? 'bg-red-500/10 text-red-600' : 'bg-muted/50'
+          }`}>
+            <ArrowUp className="h-4 w-4" />
+            <span className="font-medium">{currentScore}</span>
+          </div>
+          {post.views !== undefined && (
+            <div className="flex items-center gap-1.5 px-3 py-1.5 bg-muted/50 rounded-full">
+              <Eye className="h-4 w-4" />
+              <span className="font-medium">{post.views}</span>
+            </div>
+          )}
         </div>
 
         {/* Actions */}
-        <div className="flex gap-1 mt-4 pt-4 border-t border-border flex-wrap">
+        <div className="flex gap-1 pt-4 border-t border-border/50 flex-wrap">
           <Button
             variant="ghost"
             size="sm"
             onClick={(e) => handleVote(e, 1)}
             disabled={voteLoading}
-            className="text-muted-foreground hover:text-green-600"
+            className="text-muted-foreground hover:text-green-600 hover:bg-green-500/10 rounded-xl transition-all duration-200"
           >
-            <ThumbsUp className="w-4 h-4 mr-1" />
+            <ThumbsUp className="w-4 h-4 mr-1.5" />
             Upvote
           </Button>
           <Button
@@ -183,17 +211,17 @@ export function PostCard({ post, onVote, onBookmarkChange, showBookmark = true }
             size="sm"
             onClick={(e) => handleVote(e, -1)}
             disabled={voteLoading}
-            className="text-muted-foreground hover:text-red-600"
+            className="text-muted-foreground hover:text-red-600 hover:bg-red-500/10 rounded-xl transition-all duration-200"
           >
-            <ThumbsDown className="w-4 h-4 mr-1" />
+            <ThumbsDown className="w-4 h-4 mr-1.5" />
             Downvote
           </Button>
           <Button 
             variant="ghost" 
             size="sm"
-            className="text-muted-foreground"
+            className="text-muted-foreground hover:text-primary hover:bg-primary/10 rounded-xl transition-all duration-200"
           >
-            <MessageCircle className="w-4 h-4 mr-1" />
+            <MessageCircle className="w-4 h-4 mr-1.5" />
             Comment
           </Button>
           {authorId && (
@@ -211,14 +239,18 @@ export function PostCard({ post, onVote, onBookmarkChange, showBookmark = true }
               size="sm"
               onClick={handleBookmark}
               disabled={bookmarkLoading}
-              className={isBookmarked ? "text-yellow-600" : "text-muted-foreground hover:text-yellow-600"}
+              className={`rounded-xl transition-all duration-200 ${
+                isBookmarked 
+                  ? "text-amber-600 bg-amber-500/10" 
+                  : "text-muted-foreground hover:text-amber-600 hover:bg-amber-500/10"
+              }`}
             >
               {bookmarkLoading ? (
-                <Loader2 className="w-4 h-4 mr-1 animate-spin" />
+                <Loader2 className="w-4 h-4 mr-1.5 animate-spin" />
               ) : isBookmarked ? (
-                <BookmarkCheck className="w-4 h-4 mr-1" />
+                <BookmarkCheck className="w-4 h-4 mr-1.5" />
               ) : (
-                <Bookmark className="w-4 h-4 mr-1" />
+                <Bookmark className="w-4 h-4 mr-1.5" />
               )}
               {isBookmarked ? "Saved" : "Save"}
             </Button>
@@ -226,7 +258,11 @@ export function PostCard({ post, onVote, onBookmarkChange, showBookmark = true }
           <Button 
             variant="ghost" 
             size="sm"
-            className={shareSuccess ? "text-green-600" : "text-muted-foreground hover:text-blue-600"}
+            className={`rounded-xl transition-all duration-200 ${
+              shareSuccess 
+                ? "text-green-600 bg-green-500/10" 
+                : "text-muted-foreground hover:text-blue-600 hover:bg-blue-500/10"
+            }`}
             onClick={async (e) => {
               e.preventDefault()
               e.stopPropagation()
@@ -238,17 +274,15 @@ export function PostCard({ post, onVote, onBookmarkChange, showBookmark = true }
                 url: shareUrl,
               }
               
-              // Try Web Share API first (for mobile)
               if (navigator.share && navigator.canShare && navigator.canShare(shareData)) {
                 try {
                   await navigator.share(shareData)
                   return
                 } catch (err) {
-                  // User cancelled or error, fall back to clipboard
+                  // Fall back to clipboard
                 }
               }
               
-              // Fallback to clipboard
               try {
                 await navigator.clipboard.writeText(shareUrl)
                 setShareSuccess(true)
@@ -260,12 +294,12 @@ export function PostCard({ post, onVote, onBookmarkChange, showBookmark = true }
           >
             {shareSuccess ? (
               <>
-                <Check className="w-4 h-4 mr-1" />
+                <Check className="w-4 h-4 mr-1.5" />
                 Copied!
               </>
             ) : (
               <>
-                <Share2 className="w-4 h-4 mr-1" />
+                <Share2 className="w-4 h-4 mr-1.5" />
                 Share
               </>
             )}
