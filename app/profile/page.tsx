@@ -294,7 +294,7 @@ export default function ProfilePage() {
               <div className="flex items-start gap-4">
                 {/* Profile Photo */}
                 <div className="relative group">
-                  <div className="w-24 h-24 rounded-full overflow-hidden bg-gradient-to-br from-violet-500 to-purple-600 flex items-center justify-center text-white text-3xl font-bold">
+                  <div className="w-24 h-24 rounded-full overflow-hidden bg-gradient-to-br from-blue-600 to-blue-700 flex items-center justify-center text-white text-3xl font-bold">
                     {profilePhoto ? (
                       <Image
                         src={profilePhoto}

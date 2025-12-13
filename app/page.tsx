@@ -81,7 +81,7 @@ export default function Home() {
                 icon: Lock,
                 title: "100% Anonymous",
                 description: "Your identity is never revealed. Share freely without fear.",
-                color: "from-violet-500 to-purple-500",
+                color: "from-blue-600 to-blue-700",
               },
               {
                 icon: Users,

@@ -96,7 +96,7 @@ export function UserAvatar({
         onClick={handleClick}
         disabled={!isClickable}
         className={cn(
-          "rounded-full bg-gradient-to-br from-violet-500 to-purple-600 flex items-center justify-center text-white font-medium overflow-hidden transition-all shrink-0",
+          "rounded-full bg-gradient-to-br from-blue-600 to-blue-700 flex items-center justify-center text-white font-medium overflow-hidden transition-all shrink-0",
           sizeClasses[size],
           isClickable && "cursor-pointer hover:ring-2 hover:ring-primary hover:ring-offset-2 hover:scale-105",
           !isClickable && "cursor-default",
@@ -122,7 +122,7 @@ export function UserAvatar({
           <DialogHeader>
             <DialogTitle className="flex items-center gap-3">
               <div className={cn(
-                "rounded-full bg-gradient-to-br from-violet-500 to-purple-600 flex items-center justify-center text-white font-medium overflow-hidden shrink-0",
+                "rounded-full bg-gradient-to-br from-blue-600 to-blue-700 flex items-center justify-center text-white font-medium overflow-hidden shrink-0",
                 sizeClasses.md
               )}>
                 {photoUrl ? (
@@ -265,7 +265,7 @@ export function QuickMessageButton({
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
             <DialogTitle className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-violet-500 to-purple-600 flex items-center justify-center text-white text-sm font-medium overflow-hidden shrink-0">
+              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-600 to-blue-700 flex items-center justify-center text-white text-sm font-medium overflow-hidden shrink-0">
                 {photoUrl ? (
                   <Image
                     src={photoUrl}
@@ -325,6 +325,7 @@ export function QuickMessageButton({
     </>
   )
 }
+
 
 
 

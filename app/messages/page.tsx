@@ -314,7 +314,7 @@ function MessagesPageContent() {
                         )}
                       >
                         <div className="flex gap-3 items-center">
-                          <div className="w-10 h-10 rounded-full bg-gradient-to-br from-violet-500 to-purple-600 flex items-center justify-center text-white text-sm font-medium overflow-hidden shrink-0">
+                          <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-600 to-blue-700 flex items-center justify-center text-white text-sm font-medium overflow-hidden shrink-0">
                             {participant?.profile_photo_url ? (
                               <Image
                                 src={participant.profile_photo_url}
@@ -380,7 +380,7 @@ function MessagesPageContent() {
                       const displayName = participant?.display_name || participant?.anon_username || "Conversation"
                       return (
                         <div className="flex items-center gap-3">
-                          <div className="w-8 h-8 rounded-full bg-gradient-to-br from-violet-500 to-purple-600 flex items-center justify-center text-white text-xs font-medium overflow-hidden">
+                          <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-600 to-blue-700 flex items-center justify-center text-white text-xs font-medium overflow-hidden">
                             {participant?.profile_photo_url ? (
                               <Image
                                 src={participant.profile_photo_url}

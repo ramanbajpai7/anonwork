@@ -37,7 +37,7 @@ interface Notification {
 
 const notificationIcons: Record<string, React.ReactNode> = {
   comment: <MessageCircle className="h-4 w-4 text-blue-500" />,
-  reply: <MessageCircle className="h-4 w-4 text-purple-500" />,
+  reply: <MessageCircle className="h-4 w-4 text-blue-600" />,
   upvote: <ThumbsUp className="h-4 w-4 text-green-500" />,
   milestone: <TrendingUp className="h-4 w-4 text-yellow-500" />,
   mention: <AtSign className="h-4 w-4 text-pink-500" />,
@@ -263,6 +263,7 @@ export function NotificationBell() {
     </div>
   )
 }
+
 
 
 

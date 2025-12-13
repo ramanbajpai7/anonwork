@@ -103,7 +103,7 @@ export default function PostDetailPage() {
         <article className="bg-card border border-border rounded-lg p-6">
           {/* Post Header */}
           <div className="flex items-center gap-3 mb-4">
-            <div className="w-10 h-10 bg-gradient-to-br from-violet-500 to-purple-600 rounded-full flex items-center justify-center text-white font-semibold">
+            <div className="w-10 h-10 bg-gradient-to-br from-blue-600 to-blue-700 rounded-full flex items-center justify-center text-white font-semibold">
               {(post as any).author_anon_username?.slice(5, 7).toUpperCase() || "AN"}
             </div>
             <div>

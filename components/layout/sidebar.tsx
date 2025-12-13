@@ -19,19 +19,19 @@ import {
 } from "lucide-react"
 
 const navItems = [
-  { href: "/dashboard", label: "Home", icon: Home, color: "from-violet-500 to-purple-500" },
+  { href: "/dashboard", label: "Home", icon: Home, color: "from-blue-600 to-blue-700" },
   { href: "/topics", label: "Topics", icon: Hash, color: "from-blue-500 to-cyan-500" },
   { href: "/notifications", label: "Notifications", icon: Bell, color: "from-pink-500 to-rose-500" },
   { href: "/salaries", label: "Salaries", icon: DollarSign, color: "from-emerald-500 to-teal-500" },
   { href: "/reviews", label: "Reviews", icon: Star, color: "from-amber-500 to-orange-500" },
-  { href: "/companies", label: "Companies", icon: Building2, color: "from-indigo-500 to-purple-500" },
+  { href: "/companies", label: "Companies", icon: Building2, color: "from-blue-500 to-blue-700" },
   { href: "/messages", label: "Messages", icon: MessageSquare, color: "from-cyan-500 to-blue-500" },
   { href: "/bookmarks", label: "Saved", icon: Bookmark, color: "from-rose-500 to-pink-500" },
   { href: "/search", label: "Search", icon: Search, color: "from-slate-500 to-gray-500" },
 ]
 
 const bottomItems = [
-  { href: "/profile", label: "Profile", icon: User, color: "from-violet-500 to-purple-500" },
+  { href: "/profile", label: "Profile", icon: User, color: "from-blue-600 to-blue-700" },
   { href: "/settings", label: "Settings", icon: Settings, color: "from-slate-500 to-gray-500" },
 ]
 

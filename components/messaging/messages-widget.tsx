@@ -83,7 +83,7 @@ export function MessagesWidget() {
                 href={`/messages?conversation=${convo.id}`}
                 className="flex items-center gap-3 p-2 -mx-2 rounded-lg hover:bg-muted transition-colors"
               >
-                <div className="w-8 h-8 rounded-full bg-gradient-to-br from-violet-500 to-purple-600 flex items-center justify-center text-white text-xs font-medium overflow-hidden shrink-0">
+                <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-600 to-blue-700 flex items-center justify-center text-white text-xs font-medium overflow-hidden shrink-0">
                   {participant?.profile_photo_url ? (
                     <Image
                       src={participant.profile_photo_url}
@@ -144,6 +144,7 @@ export function MessagesQuickAccess() {
     </Link>
   )
 }
+
 
 
 

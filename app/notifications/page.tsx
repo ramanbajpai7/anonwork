@@ -39,7 +39,7 @@ interface Notification {
 
 const notificationIcons: Record<string, React.ReactNode> = {
   comment: <MessageCircle className="h-5 w-5 text-blue-500" />,
-  reply: <MessageCircle className="h-5 w-5 text-purple-500" />,
+  reply: <MessageCircle className="h-5 w-5 text-blue-600" />,
   upvote: <ThumbsUp className="h-5 w-5 text-green-500" />,
   milestone: <TrendingUp className="h-5 w-5 text-yellow-500" />,
   mention: <AtSign className="h-5 w-5 text-pink-500" />,
@@ -315,6 +315,7 @@ export default function NotificationsPage() {
     </div>
   )
 }
+
 
 
 
