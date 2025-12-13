@@ -12,13 +12,7 @@ import { MobileNav } from "@/components/layout/mobile-nav";
 import { MessagesWidget } from "@/components/messaging/messages-widget";
 import { redirect } from "next/navigation";
 import Image from "next/image";
-import {
-  PenSquare,
-  TrendingUp,
-  Clock,
-  Plus,
-  Loader2,
-} from "lucide-react";
+import { PenSquare, TrendingUp, Clock, Plus, Loader2 } from "lucide-react";
 
 export default function DashboardPage() {
   const { user, loading: authLoading } = useAuth();
@@ -111,7 +105,13 @@ export default function DashboardPage() {
                           {user?.display_name || user?.anon_username}!
                         </span>
                       </h1>
-                      <Image src="/icon.png" alt="AnonWork" width={24} height={24} className="rounded" />
+                      <Image
+                        src="/icon.png"
+                        alt="AnonWork"
+                        width={24}
+                        height={24}
+                        className="rounded"
+                      />
                     </div>
                     <p className="text-muted-foreground">
                       Here's what's happening in your community today

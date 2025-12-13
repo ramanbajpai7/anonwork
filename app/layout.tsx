@@ -107,9 +107,9 @@ export const metadata: Metadata = {
   // Manifest for PWA
   manifest: "/manifest.json",
   
-  // Verification for search engines (add your actual verification codes)
+  // Verification for search engines
   verification: {
-    google: "your-google-verification-code", // Replace with actual code from Google Search Console
+    google: "b4v_63mdwxhz8vbnoxcUJ4NCwzEUz3FE7U_M9QnCHPA",
   },
   
   // Category
