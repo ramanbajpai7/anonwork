@@ -71,11 +71,11 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Create transporter with Titan Email SMTP
+    // Create transporter with Titan Email SMTP (SSL on port 465)
     const transporter = nodemailer.createTransport({
       host: "smtp.titan.email",
-      port: 587,
-      secure: false, // Use TLS
+      port: 465,
+      secure: true, // Use SSL
       auth: {
         user: emailUser,
         pass: emailPass,
@@ -83,7 +83,20 @@ export async function POST(request: NextRequest) {
       tls: {
         rejectUnauthorized: false,
       },
+      debug: true,
     });
+
+    // Verify connection
+    try {
+      await transporter.verify();
+      console.log("SMTP connection verified successfully");
+    } catch (verifyError) {
+      console.error("SMTP verification failed:", verifyError);
+      return NextResponse.json(
+        { error: "Email service configuration error. Please contact support." },
+        { status: 500 }
+      );
+    }
 
     // Email content to send to admin
     const mailOptionsToAdmin = {
@@ -275,8 +288,26 @@ https://www.anonwork.tech
       { message: "Message sent successfully!" },
       { status: 200 }
     );
-  } catch (error) {
+  } catch (error: any) {
     console.error("Contact form error:", error);
+    console.error("Error message:", error?.message);
+    console.error("Error code:", error?.code);
+    
+    // More specific error messages
+    if (error?.code === "EAUTH") {
+      return NextResponse.json(
+        { error: "Email authentication failed. Please check email credentials." },
+        { status: 500 }
+      );
+    }
+    
+    if (error?.code === "ESOCKET" || error?.code === "ECONNECTION") {
+      return NextResponse.json(
+        { error: "Could not connect to email server." },
+        { status: 500 }
+      );
+    }
+    
     return NextResponse.json(
       { error: "Failed to send message. Please try again later." },
       { status: 500 }
