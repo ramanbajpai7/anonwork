@@ -3,7 +3,7 @@ import { Inter } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 
-const inter = Inter({ 
+const inter = Inter({
   subsets: ["latin"],
   display: "swap",
   variable: "--font-inter",
@@ -13,11 +13,13 @@ const inter = Inter({
 export const metadata: Metadata = {
   // Basic metadata - optimized for "anonwork" searches
   title: {
-    default: "AnonWork | Anonymous Professional Community - Speak Freely, Stay Anonymous",
+    default:
+      "AnonWork | Anonymous Professional Community - Speak Freely, Stay Anonymous",
     template: "%s | AnonWork",
   },
-  description: "AnonWork is the #1 anonymous professional community. Share insights, discuss salaries, review companies, and connect with verified professionals - all while staying completely anonymous. Free to join.",
-  
+  description:
+    "AnonWork is the #1 anonymous professional community. Share insights, discuss salaries, review companies, and connect with verified professionals - all while staying completely anonymous. Free to join.",
+
   // Application info
   applicationName: "AnonWork",
   generator: "Next.js",
@@ -40,12 +42,12 @@ export const metadata: Metadata = {
     "tech salary discussions",
     "anonymous professional network",
   ],
-  
+
   // Authors and creator
   authors: [{ name: "AnonWork Team" }],
   creator: "AnonWork",
   publisher: "AnonWork",
-  
+
   // Robots directives for SEO
   robots: {
     index: true,
@@ -58,13 +60,13 @@ export const metadata: Metadata = {
       "max-snippet": -1,
     },
   },
-  
+
   // Canonical URL
   metadataBase: new URL("https://www.anonwork.tech"),
   alternates: {
     canonical: "/",
   },
-  
+
   // Open Graph for social sharing
   openGraph: {
     type: "website",
@@ -72,7 +74,8 @@ export const metadata: Metadata = {
     url: "https://www.anonwork.tech",
     siteName: "AnonWork",
     title: "AnonWork - Anonymous Professional Community",
-    description: "Join the #1 anonymous professional community. Share insights, discuss salaries, and connect with verified professionals - completely anonymously.",
+    description:
+      "Join the #1 anonymous professional community. Share insights, discuss salaries, and connect with verified professionals - completely anonymously.",
     images: [
       {
         url: "/og-image.png",
@@ -82,16 +85,17 @@ export const metadata: Metadata = {
       },
     ],
   },
-  
+
   // Twitter Card
   twitter: {
     card: "summary_large_image",
     title: "AnonWork - Anonymous Professional Community",
-    description: "Join the #1 anonymous professional community. Share insights, discuss salaries, and connect with verified professionals.",
+    description:
+      "Join the #1 anonymous professional community. Share insights, discuss salaries, and connect with verified professionals.",
     images: ["/og-image.png"],
     creator: "@anonwork",
   },
-  
+
   // Favicon and Icons
   icons: {
     icon: [
@@ -99,19 +103,17 @@ export const metadata: Metadata = {
       { url: "/favicon.ico", sizes: "any" },
     ],
     shortcut: "/icon.png",
-    apple: [
-      { url: "/icon.png", sizes: "180x180", type: "image/png" },
-    ],
+    apple: [{ url: "/icon.png", sizes: "180x180", type: "image/png" }],
   },
-  
+
   // Manifest for PWA
   manifest: "/manifest.json",
-  
+
   // Verification for search engines
   verification: {
     google: "b4v_63mdwxhz8vbnoxcUJ4NCwzEUz3FE7U_M9QnCHPA",
   },
-  
+
   // Category
   category: "technology",
 };
@@ -137,8 +139,12 @@ export default function RootLayout({
       <head>
         {/* Preconnect to important origins */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        
+        <link
+          rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossOrigin="anonymous"
+        />
+
         {/* Structured Data for Google - WebSite (controls site name display) */}
         <script
           type="application/ld+json"
@@ -150,23 +156,25 @@ export default function RootLayout({
               name: "AnonWork",
               alternateName: ["Anon Work", "AnonWork.tech", "Anonwork"],
               url: "https://www.anonwork.tech",
-              description: "The #1 anonymous professional community for sharing insights, salaries, and company reviews.",
+              description:
+                "The #1 anonymous professional community for sharing insights, salaries, and company reviews.",
               inLanguage: "en-US",
               publisher: {
-                "@id": "https://www.anonwork.tech/#organization"
+                "@id": "https://www.anonwork.tech/#organization",
               },
               potentialAction: {
                 "@type": "SearchAction",
                 target: {
                   "@type": "EntryPoint",
-                  urlTemplate: "https://www.anonwork.tech/search?q={search_term_string}"
+                  urlTemplate:
+                    "https://www.anonwork.tech/search?q={search_term_string}",
                 },
-                "query-input": "required name=search_term_string"
-              }
+                "query-input": "required name=search_term_string",
+              },
             }),
           }}
         />
-        
+
         {/* Structured Data for Google - Organization */}
         <script
           type="application/ld+json"
@@ -185,16 +193,17 @@ export default function RootLayout({
                 contentUrl: "https://www.anonwork.tech/icon.png",
                 width: 512,
                 height: 512,
-                caption: "AnonWork"
+                caption: "AnonWork",
               },
               image: { "@id": "https://www.anonwork.tech/#logo" },
-              description: "Anonymous professional community for workplace discussions, salary sharing, and company reviews.",
+              description:
+                "Anonymous professional community for workplace discussions, salary sharing, and company reviews.",
               foundingDate: "2024",
-              slogan: "Speak Freely, Stay Anonymous"
+              slogan: "Speak Freely, Stay Anonymous",
             }),
           }}
         />
-        
+
         {/* Structured Data for Google - WebApplication */}
         <script
           type="application/ld+json"
@@ -209,8 +218,8 @@ export default function RootLayout({
               offers: {
                 "@type": "Offer",
                 price: "0",
-                priceCurrency: "USD"
-              }
+                priceCurrency: "USD",
+              },
             }),
           }}
         />

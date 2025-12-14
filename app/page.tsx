@@ -155,9 +155,9 @@ export default function Home() {
               © 2024 AnonWork. Built for professionals, by professionals.
             </p>
             <div className="flex gap-6 text-sm text-muted-foreground">
-              <Link href="#" className="hover:text-foreground transition-colors">Privacy</Link>
-              <Link href="#" className="hover:text-foreground transition-colors">Terms</Link>
-              <Link href="#" className="hover:text-foreground transition-colors">Contact</Link>
+              <Link href="/privacy" className="hover:text-foreground transition-colors">Privacy</Link>
+              <Link href="/terms" className="hover:text-foreground transition-colors">Terms</Link>
+              <Link href="/contact" className="hover:text-foreground transition-colors">Contact</Link>
             </div>
           </div>
         </div>
