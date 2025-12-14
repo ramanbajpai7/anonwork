@@ -71,12 +71,17 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Create transporter with Gmail SMTP
+    // Create transporter with Titan Email SMTP
     const transporter = nodemailer.createTransport({
-      service: "gmail",
+      host: "smtp.titan.email",
+      port: 587,
+      secure: false, // Use TLS
       auth: {
         user: emailUser,
-        pass: emailPass, // Use App Password, not regular password
+        pass: emailPass,
+      },
+      tls: {
+        rejectUnauthorized: false,
       },
     });
 
