@@ -10,6 +10,7 @@ import { useParams } from "next/navigation"
 import { ArrowLeft, Share2, Check, Eye } from "lucide-react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
+import { AISummarizeButton } from "@/components/ai"
 
 export default function PostDetailPage() {
   const params = useParams()
@@ -126,6 +127,11 @@ export default function PostDetailPage() {
           {/* Vote Section */}
           <div className="mb-6">
             <VoteSection postId={postId} initialScore={post.score} />
+          </div>
+
+          {/* AI Summary Button */}
+          <div className="mb-6">
+            <AISummarizeButton postId={postId} />
           </div>
 
           {/* Post Stats & Actions */}

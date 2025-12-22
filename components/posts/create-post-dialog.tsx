@@ -15,6 +15,7 @@ import {
   DialogFooter,
 } from "@/components/ui/dialog"
 import { Loader2, Plus, ImageIcon, BarChart3 } from "lucide-react"
+import { AIComposeSuggestions, AIContentWarning, AIRewriteHelper } from "@/components/ai"
 
 interface CreatePostDialogProps {
   topicId?: string
@@ -181,6 +182,30 @@ export function CreatePostDialog({
               className="mt-1 resize-none"
             />
           </div>
+
+          {/* AI Content Warning */}
+          {body.length > 50 && (
+            <AIContentWarning text={body} autoCheck={true} debounceMs={1500} />
+          )}
+
+          {/* AI Suggestions */}
+          {body.length > 30 && (
+            <AIComposeSuggestions
+              content={body}
+              currentTitle={title}
+              onSelectTitle={(t) => setTitle(t)}
+              showTitles={true}
+              showTags={false}
+            />
+          )}
+
+          {/* AI Rewrite Helper */}
+          {body.length > 50 && (
+            <AIRewriteHelper
+              text={body}
+              onRewrite={(newText) => setBody(newText)}
+            />
+          )}
 
           {/* Poll Section */}
           {showPoll && (
