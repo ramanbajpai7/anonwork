@@ -1,4 +1,5 @@
 "use client"
+import { gatewayFetch } from "@/lib/api-client"
 
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
@@ -34,7 +35,7 @@ export function AIQAInterface({ channelId, topicId, className = "" }: AIQAInterf
     setAnswer(null)
 
     try {
-      const res = await fetch("/api/ai/qa", {
+      const res = await gatewayFetch("/api/ai/qa", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

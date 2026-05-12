@@ -1,4 +1,5 @@
 "use client";
+import { gatewayFetch } from "@/lib/api-client"
 
 import { useEffect, useState, useRef } from "react";
 import { useAuth } from "@/hooks/use-auth";
@@ -72,7 +73,7 @@ export default function ProfilePage() {
     async function fetchStats() {
       if (!user) return;
       try {
-        const res = await fetch("/api/users/stats");
+        const res = await gatewayFetch("/api/users/stats");
         if (res.ok) {
           const data = await res.json();
           setStats({ posts: data.posts || 0, comments: data.comments || 0 });
@@ -108,7 +109,7 @@ export default function ProfilePage() {
       const formData = new FormData();
       formData.append("photo", file);
 
-      const res = await fetch("/api/auth/profile-photo", {
+      const res = await gatewayFetch("/api/auth/profile-photo", {
         method: "POST",
         body: formData,
       });
@@ -136,7 +137,7 @@ export default function ProfilePage() {
     setPhotoError("");
 
     try {
-      const res = await fetch("/api/auth/profile-photo", {
+      const res = await gatewayFetch("/api/auth/profile-photo", {
         method: "DELETE",
       });
 
@@ -159,7 +160,7 @@ export default function ProfilePage() {
     setNameSuccess("");
 
     try {
-      const res = await fetch("/api/auth/profile", {
+      const res = await gatewayFetch("/api/auth/profile", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ display_name: displayName }),
@@ -198,7 +199,7 @@ export default function ProfilePage() {
     setVerificationSuccess("");
 
     try {
-      const res = await fetch("/api/auth/verify-work-email", {
+      const res = await gatewayFetch("/api/auth/verify-work-email", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ work_email: workEmail }),
@@ -236,7 +237,7 @@ export default function ProfilePage() {
     setVerificationSuccess("");
 
     try {
-      const res = await fetch("/api/auth/verify-work-email", {
+      const res = await gatewayFetch("/api/auth/verify-work-email", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ code: verificationCode }),

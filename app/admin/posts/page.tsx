@@ -1,4 +1,5 @@
 "use client"
+import { gatewayFetch } from "@/lib/api-client"
 
 import { useEffect, useState } from "react"
 import { useAuth } from "@/hooks/use-auth"
@@ -22,7 +23,7 @@ export default function AdminPostsPage() {
   useEffect(() => {
     async function fetchPosts() {
       try {
-        const response = await fetch(`/api/admin/posts?status=${filterStatus}&limit=50`)
+        const response = await gatewayFetch(`/api/admin/posts?status=${filterStatus}&limit=50`)
         if (response.ok) {
           const data = await response.json()
           setPosts(data.posts || [])

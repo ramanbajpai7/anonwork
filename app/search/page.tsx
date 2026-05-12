@@ -1,4 +1,5 @@
 "use client"
+import { gatewayFetch } from "@/lib/api-client"
 
 import { useState } from "react"
 import { Header } from "@/components/layout/header"
@@ -24,7 +25,7 @@ export default function SearchPage() {
     setLoading(true)
     setSearched(true)
     try {
-      const res = await fetch(`/api/search?q=${encodeURIComponent(query)}`)
+      const res = await gatewayFetch(`/api/search?q=${encodeURIComponent(query)}`)
       if (res.ok) {
         const data = await res.json()
         setResults(data.results || {})

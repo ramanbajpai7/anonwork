@@ -1,0 +1,12 @@
+{
+  "name": "anonwork-messaging-service",
+  "version": "1.0.0",
+  "description": "Messaging Service - handles conversations, direct messages, and WebSocket connections",
+  "main": "src/index.js",
+  "scripts": { "start": "node src/index.js", "dev": "nodemon src/index.js" },
+  "dependencies": {
+    "express": "^4.21.0", "pg": "^8.16.3", "ws": "^8.18.3",
+    "ioredis": "^5.4.1", "amqplib": "^0.10.5", "cors": "^2.8.5"
+  },
+  "devDependencies": { "nodemon": "^3.1.7" }
+}

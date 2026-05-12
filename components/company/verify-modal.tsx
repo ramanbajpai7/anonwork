@@ -1,4 +1,5 @@
 "use client"
+import { gatewayFetch } from "@/lib/api-client"
 
 import type React from "react"
 
@@ -37,7 +38,7 @@ export function VerifyModal({ companyId, companyName, companyDomain, onClose, on
     setLoading(true)
 
     try {
-      const response = await fetch(`/api/companies/${companyId}/verify`, {
+      const response = await gatewayFetch(`/api/companies/${companyId}/verify`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ proof_email: email }),

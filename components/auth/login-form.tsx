@@ -1,4 +1,5 @@
 "use client"
+import { gatewayFetch } from "@/lib/api-client"
 
 import type React from "react"
 
@@ -28,7 +29,7 @@ export function LoginForm() {
     setLoading(true)
 
     try {
-      const response = await fetch("/api/auth/login", {
+      const response = await gatewayFetch("/api/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),

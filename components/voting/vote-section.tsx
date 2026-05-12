@@ -1,4 +1,5 @@
 "use client"
+import { gatewayFetch } from "@/lib/api-client"
 
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
@@ -19,7 +20,7 @@ export function VoteSection({ postId, initialScore, onScoreChange }: VoteSection
     setLoading(true)
 
     try {
-      const response = await fetch(`/api/posts/${postId}/vote`, {
+      const response = await gatewayFetch(`/api/posts/${postId}/vote`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ vote: userVote === vote ? 0 : vote }),

@@ -1,4 +1,5 @@
 "use client"
+import { gatewayFetch } from "@/lib/api-client"
 
 import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
@@ -67,7 +68,7 @@ export default function NotificationsPage() {
   async function fetchNotifications() {
     setLoading(true)
     try {
-      const res = await fetch(`/api/notifications?limit=50${filter === "unread" ? "&unread=true" : ""}`)
+      const res = await gatewayFetch(`/api/notifications?limit=50${filter === "unread" ? "&unread=true" : ""}`)
       if (res.ok) {
         const data = await res.json()
         setNotifications(data.notifications || [])
@@ -89,7 +90,7 @@ export default function NotificationsPage() {
   async function markAllAsRead() {
     setMarkingRead(true)
     try {
-      const res = await fetch("/api/notifications", {
+      const res = await gatewayFetch("/api/notifications", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ mark_all: true }),
@@ -107,7 +108,7 @@ export default function NotificationsPage() {
 
   async function markAsRead(notificationId: string) {
     try {
-      await fetch("/api/notifications", {
+      await gatewayFetch("/api/notifications", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ notification_ids: [notificationId] }),
@@ -123,7 +124,7 @@ export default function NotificationsPage() {
 
   async function deleteNotification(notificationId: string) {
     try {
-      await fetch("/api/notifications", {
+      await gatewayFetch("/api/notifications", {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ notification_id: notificationId }),

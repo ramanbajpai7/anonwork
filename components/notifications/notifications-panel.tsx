@@ -1,4 +1,5 @@
 "use client"
+import { gatewayFetch } from "@/lib/api-client"
 
 import { useEffect, useState } from "react"
 import type { Notification } from "@/lib/types"
@@ -17,7 +18,7 @@ export function NotificationsPanel({ onClose }: NotificationsPanelProps) {
   useEffect(() => {
     async function fetchNotifications() {
       try {
-        const response = await fetch("/api/notifications?limit=20")
+        const response = await gatewayFetch("/api/notifications?limit=20")
         if (response.ok) {
           const data = await response.json()
           setNotifications(data.notifications || [])
@@ -34,7 +35,7 @@ export function NotificationsPanel({ onClose }: NotificationsPanelProps) {
 
   async function handleMarkAsRead(notificationId: string) {
     try {
-      await fetch(`/api/notifications/${notificationId}/read`, { method: "PATCH" })
+      await gatewayFetch(`/api/notifications/${notificationId}/read`, { method: "PATCH" })
       setNotifications(notifications.map((n) => (n.id === notificationId ? { ...n, read: true } : n)))
     } catch (err) {
       console.error("Failed to mark as read:", err)

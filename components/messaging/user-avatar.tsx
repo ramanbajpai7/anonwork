@@ -1,4 +1,5 @@
 "use client"
+import { gatewayFetch } from "@/lib/api-client"
 
 import { useState } from "react"
 import Image from "next/image"
@@ -65,7 +66,7 @@ export function UserAvatar({
     setSending(true)
     try {
       // First try to find or create a conversation
-      const res = await fetch("/api/messages", {
+      const res = await gatewayFetch("/api/messages", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -223,7 +224,7 @@ export function QuickMessageButton({
 
     setSending(true)
     try {
-      const res = await fetch("/api/messages", {
+      const res = await gatewayFetch("/api/messages", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

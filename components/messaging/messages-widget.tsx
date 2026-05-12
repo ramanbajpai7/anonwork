@@ -1,4 +1,5 @@
 "use client"
+import { gatewayFetch } from "@/lib/api-client"
 
 import { useEffect, useState } from "react"
 import Link from "next/link"
@@ -32,7 +33,7 @@ export function MessagesWidget() {
     
     async function fetchRecentConversations() {
       try {
-        const res = await fetch("/api/messages?limit=3")
+        const res = await gatewayFetch("/api/messages?limit=3")
         if (res.ok) {
           const data = await res.json()
           setConversations(data.conversations?.slice(0, 3) || [])

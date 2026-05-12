@@ -1,4 +1,5 @@
 "use client"
+import { gatewayFetch } from "@/lib/api-client"
 
 import { useEffect, useState } from "react"
 import { Header } from "@/components/layout/header"
@@ -25,7 +26,7 @@ export default function TopicsPage() {
   useEffect(() => {
     async function fetchTopics() {
       try {
-        const res = await fetch("/api/topics")
+        const res = await gatewayFetch("/api/topics")
         if (res.ok) {
           const data = await res.json()
           setTopics(data.topics || [])

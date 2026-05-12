@@ -1,4 +1,5 @@
 "use client"
+import { gatewayFetch } from "@/lib/api-client"
 
 import type React from "react"
 import { useEffect, useState } from "react"
@@ -23,7 +24,7 @@ export function CommentsSection({ postId }: CommentsSectionProps) {
   useEffect(() => {
     async function fetchComments() {
       try {
-        const response = await fetch(`/api/posts/${postId}/comments?page=1&limit=50`)
+        const response = await gatewayFetch(`/api/posts/${postId}/comments?page=1&limit=50`)
         if (response.ok) {
           const data = await response.json()
           setComments(data.comments || [])
@@ -49,7 +50,7 @@ export function CommentsSection({ postId }: CommentsSectionProps) {
     setPosting(true)
 
     try {
-      const response = await fetch(`/api/posts/${postId}/comments`, {
+      const response = await gatewayFetch(`/api/posts/${postId}/comments`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ body: newComment }),
@@ -73,7 +74,7 @@ export function CommentsSection({ postId }: CommentsSectionProps) {
 
   async function handleDelete(commentId: string) {
     try {
-      const response = await fetch(`/api/comments/${commentId}`, { method: "DELETE" })
+      const response = await gatewayFetch(`/api/comments/${commentId}`, { method: "DELETE" })
       if (response.ok) {
         setComments(comments.filter((c) => c.id !== commentId))
       }

@@ -1,4 +1,5 @@
 "use client"
+import { gatewayFetch } from "@/lib/api-client"
 
 import { useEffect, useState, useRef } from "react"
 import Link from "next/link"
@@ -60,7 +61,7 @@ export function NotificationBell() {
     
     setLoading(true)
     try {
-      const res = await fetch("/api/notifications?limit=10")
+      const res = await gatewayFetch("/api/notifications?limit=10")
       if (res.ok) {
         const data = await res.json()
         setNotifications(data.notifications || [])
@@ -100,7 +101,7 @@ export function NotificationBell() {
   async function markAllAsRead() {
     setMarkingRead(true)
     try {
-      const res = await fetch("/api/notifications", {
+      const res = await gatewayFetch("/api/notifications", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ mark_all: true }),
@@ -119,7 +120,7 @@ export function NotificationBell() {
   // Mark single notification as read
   async function markAsRead(notificationId: string) {
     try {
-      await fetch("/api/notifications", {
+      await gatewayFetch("/api/notifications", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ notification_ids: [notificationId] }),

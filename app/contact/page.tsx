@@ -1,4 +1,5 @@
 "use client";
+import { gatewayFetch } from "@/lib/api-client"
 
 import { useState } from "react";
 import Link from "next/link";
@@ -33,7 +34,7 @@ export default function ContactPage() {
     setErrorMessage("");
 
     try {
-      const response = await fetch("/api/contact", {
+      const response = await gatewayFetch("/api/contact", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -1,4 +1,5 @@
 "use client"
+import { gatewayFetch } from "@/lib/api-client"
 
 import type React from "react"
 
@@ -39,7 +40,7 @@ export function RegisterForm() {
     setLoading(true)
 
     try {
-      const response = await fetch("/api/auth/register", {
+      const response = await gatewayFetch("/api/auth/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),

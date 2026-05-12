@@ -1,4 +1,5 @@
 "use client"
+import { gatewayFetch } from "@/lib/api-client"
 
 import { useEffect, useState, Suspense } from "react"
 import { useSearchParams } from "next/navigation"
@@ -99,7 +100,7 @@ function MessagesPageContent() {
 
   async function fetchConversations() {
     try {
-      const res = await fetch("/api/messages")
+      const res = await gatewayFetch("/api/messages")
       if (res.ok) {
         const data = await res.json()
         setConversations(data.conversations || [])
@@ -113,7 +114,7 @@ function MessagesPageContent() {
 
   async function fetchMessages(conversationId: string) {
     try {
-      const res = await fetch(`/api/messages/${conversationId}`)
+      const res = await gatewayFetch(`/api/messages/${conversationId}`)
       if (res.ok) {
         const data = await res.json()
         setMessages(data.messages || [])
@@ -129,7 +130,7 @@ function MessagesPageContent() {
 
     setSendingMessage(true)
     try {
-      const res = await fetch(`/api/messages/${selectedConvo}`, {
+      const res = await gatewayFetch(`/api/messages/${selectedConvo}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ body: newMessage }),
@@ -150,7 +151,7 @@ function MessagesPageContent() {
     if (!searchUsername.trim()) return
     setSearchLoading(true)
     try {
-      const res = await fetch(`/api/users/search?q=${encodeURIComponent(searchUsername)}`)
+      const res = await gatewayFetch(`/api/users/search?q=${encodeURIComponent(searchUsername)}`)
       if (res.ok) {
         const data = await res.json()
         setSearchResults(data.users || [])
@@ -166,7 +167,7 @@ function MessagesPageContent() {
     if (!selectedRecipient || !newConvoMessage.trim()) return
     setStartingConvo(true)
     try {
-      const res = await fetch("/api/messages", {
+      const res = await gatewayFetch("/api/messages", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ 

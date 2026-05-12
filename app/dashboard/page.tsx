@@ -1,4 +1,5 @@
 "use client";
+import { gatewayFetch } from "@/lib/api-client";
 
 import { useAuth } from "@/hooks/use-auth";
 import { useEffect, useState } from "react";
@@ -29,7 +30,7 @@ export default function DashboardPage() {
   useEffect(() => {
     async function fetchPosts() {
       try {
-        const response = await fetch(
+        const response = await gatewayFetch(
           `/api/posts?feed_type=${feedType}&page=1&limit=20`
         );
         if (response.ok) {

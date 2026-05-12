@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react"
 import type { User } from "@/lib/types"
+import { gatewayFetch } from "@/lib/api-client"
 
 export function useAuth() {
   const [user, setUser] = useState<User | null>(null)
@@ -11,7 +12,7 @@ export function useAuth() {
   useEffect(() => {
     async function checkAuth() {
       try {
-        const response = await fetch("/api/auth/me")
+        const response = await gatewayFetch("/api/auth/me")
         if (response.ok) {
           const data = await response.json()
           setUser(data.user)
@@ -28,7 +29,7 @@ export function useAuth() {
 
   async function logout() {
     try {
-      await fetch("/api/auth/logout", { method: "POST" })
+      await gatewayFetch("/api/auth/logout", { method: "POST" })
       setUser(null)
       window.location.href = "/"
     } catch (err) {

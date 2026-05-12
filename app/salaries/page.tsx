@@ -1,4 +1,5 @@
 "use client"
+import { gatewayFetch } from "@/lib/api-client"
 
 import { useEffect, useState } from "react"
 import { Header } from "@/components/layout/header"
@@ -49,7 +50,7 @@ export default function SalariesPage() {
       if (searchCompany) params.set("company", searchCompany)
       if (searchTitle) params.set("title", searchTitle)
       
-      const res = await fetch(`/api/salaries?${params}`)
+      const res = await gatewayFetch(`/api/salaries?${params}`)
       if (res.ok) {
         const data = await res.json()
         setSalaries(data.salaries || [])
@@ -71,7 +72,7 @@ export default function SalariesPage() {
     setSubmitMessage(null)
     
     try {
-      const res = await fetch("/api/salaries", {
+      const res = await gatewayFetch("/api/salaries", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

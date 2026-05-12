@@ -1,0 +1,20 @@
+{
+  "name": "anonwork-content-service",
+  "version": "1.0.0",
+  "description": "Content Service - handles posts, comments, votes, companies, reviews, salaries, topics, bookmarks, search",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js"
+  },
+  "dependencies": {
+    "express": "^4.21.0",
+    "pg": "^8.16.3",
+    "ioredis": "^5.4.1",
+    "amqplib": "^0.10.5",
+    "cors": "^2.8.5"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.7"
+  }
+}
