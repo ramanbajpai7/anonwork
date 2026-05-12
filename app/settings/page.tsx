@@ -1,4 +1,5 @@
 "use client"
+import { gatewayFetch } from "@/lib/api-client"
 
 import { useState } from "react"
 import { useAuth } from "@/hooks/use-auth"
@@ -53,7 +54,7 @@ export default function SettingsPage() {
 
     setPasswordLoading(true)
     try {
-      const res = await fetch("/api/auth/change-password", {
+      const res = await gatewayFetch("/api/auth/change-password", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

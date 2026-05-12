@@ -1,4 +1,5 @@
 "use client"
+import { gatewayFetch } from "@/lib/api-client"
 
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
@@ -106,7 +107,7 @@ export function CreatePostDialog({
         }
       }
 
-      const res = await fetch("/api/posts", {
+      const res = await gatewayFetch("/api/posts", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(postData),

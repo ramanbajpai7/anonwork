@@ -1,4 +1,5 @@
 "use client"
+import { gatewayFetch } from "@/lib/api-client"
 
 import { useState } from "react"
 import type { Post } from "@/lib/types"
@@ -60,7 +61,7 @@ export function PostCard({ post, onVote, onBookmarkChange, showBookmark = true }
     setBookmarkLoading(true)
     try {
       if (isBookmarked) {
-        await fetch("/api/bookmarks", {
+        await gatewayFetch("/api/bookmarks", {
           method: "DELETE",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ post_id: post.id }),
@@ -68,7 +69,7 @@ export function PostCard({ post, onVote, onBookmarkChange, showBookmark = true }
         setIsBookmarked(false)
         onBookmarkChange?.(false)
       } else {
-        await fetch("/api/bookmarks", {
+        await gatewayFetch("/api/bookmarks", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ post_id: post.id }),
@@ -91,7 +92,7 @@ export function PostCard({ post, onVote, onBookmarkChange, showBookmark = true }
     
     setVoteLoading(true)
     try {
-      const res = await fetch(`/api/posts/${post.id}/vote`, {
+      const res = await gatewayFetch(`/api/posts/${post.id}/vote`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ vote }),

@@ -1,4 +1,5 @@
 "use client"
+import { gatewayFetch } from "@/lib/api-client"
 
 import { useEffect, useState } from "react"
 import { Header } from "@/components/layout/header"
@@ -23,7 +24,7 @@ export default function BookmarksPage() {
   useEffect(() => {
     async function fetchBookmarks() {
       try {
-        const res = await fetch("/api/bookmarks")
+        const res = await gatewayFetch("/api/bookmarks")
         if (res.ok) {
           const data = await res.json()
           // Transform bookmarks to include bookmark_id for the PostCard

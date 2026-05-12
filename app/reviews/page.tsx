@@ -1,4 +1,5 @@
 "use client"
+import { gatewayFetch } from "@/lib/api-client"
 
 import { useEffect, useState } from "react"
 import { Header } from "@/components/layout/header"
@@ -59,7 +60,7 @@ export default function ReviewsPage() {
       const params = new URLSearchParams()
       if (searchCompany) params.set("company", searchCompany)
       
-      const res = await fetch(`/api/reviews?${params}`)
+      const res = await gatewayFetch(`/api/reviews?${params}`)
       if (res.ok) {
         const data = await res.json()
         setReviews(data.reviews || [])
@@ -88,7 +89,7 @@ export default function ReviewsPage() {
     setSubmitMessage(null)
     
     try {
-      const res = await fetch("/api/reviews", {
+      const res = await gatewayFetch("/api/reviews", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),

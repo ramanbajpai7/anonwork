@@ -1,4 +1,5 @@
 "use client"
+import { gatewayFetch } from "@/lib/api-client"
 
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
@@ -25,7 +26,7 @@ export function AIRewriteHelper({ text, onRewrite, className = "" }: AIRewriteHe
     setLoading(true)
 
     try {
-      const res = await fetch("/api/ai/rewrite", {
+      const res = await gatewayFetch("/api/ai/rewrite", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ text, style: selectedStyle }),

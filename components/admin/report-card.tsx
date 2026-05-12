@@ -1,4 +1,5 @@
 "use client"
+import { gatewayFetch } from "@/lib/api-client"
 
 import type { Report } from "@/lib/types"
 import { useState } from "react"
@@ -21,7 +22,7 @@ export function ReportCard({ report, onAction }: ReportCardProps) {
     setActionLoading(true)
 
     try {
-      const response = await fetch(`/api/admin/reports/${report.id}/action`, {
+      const response = await gatewayFetch(`/api/admin/reports/${report.id}/action`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ action, reason: "" }),

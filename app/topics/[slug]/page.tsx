@@ -1,4 +1,5 @@
 "use client"
+import { gatewayFetch } from "@/lib/api-client"
 
 import { useEffect, useState } from "react"
 import { useParams } from "next/navigation"
@@ -20,7 +21,7 @@ export default function TopicDetailPage() {
 
   const fetchTopic = async () => {
     try {
-      const res = await fetch(`/api/topics/${slug}`)
+      const res = await gatewayFetch(`/api/topics/${slug}`)
       if (res.ok) {
         const data = await res.json()
         setTopic(data.topic)

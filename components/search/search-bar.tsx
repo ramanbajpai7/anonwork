@@ -1,4 +1,5 @@
 "use client"
+import { gatewayFetch } from "@/lib/api-client"
 
 import { useState, useRef, useEffect } from "react"
 import { Input } from "@/components/ui/input"
@@ -33,7 +34,7 @@ export function SearchBar() {
     setLoading(true)
     timeoutRef.current = setTimeout(async () => {
       try {
-        const response = await fetch(`/api/search?q=${encodeURIComponent(query)}&limit=8`)
+        const response = await gatewayFetch(`/api/search?q=${encodeURIComponent(query)}&limit=8`)
         if (response.ok) {
           const data = await response.json()
           setResults(data.results || [])

@@ -1,4 +1,5 @@
 "use client"
+import { gatewayFetch } from "@/lib/api-client"
 
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
@@ -53,7 +54,7 @@ export function AIComposeSuggestions({
     setError(null)
 
     try {
-      const res = await fetch("/api/ai/suggest-title", {
+      const res = await gatewayFetch("/api/ai/suggest-title", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ content }),
@@ -80,7 +81,7 @@ export function AIComposeSuggestions({
     setError(null)
 
     try {
-      const res = await fetch("/api/ai/suggest-tags", {
+      const res = await gatewayFetch("/api/ai/suggest-tags", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ title: currentTitle, content }),

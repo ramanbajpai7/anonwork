@@ -1,0 +1,138 @@
+version: '3.8'
+
+services:
+  # ============================================
+  # INFRASTRUCTURE
+  # ============================================
+
+  redis:
+    image: redis:alpine
+    container_name: anonwork-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    container_name: anonwork-rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "check_running"]
+      interval: 15s
+      timeout: 10s
+      retries: 3
+
+  # ============================================
+  # MICROSERVICES
+  # ============================================
+
+  api-gateway:
+    build: ./services/api-gateway
+    container_name: anonwork-gateway
+    ports:
+      - "4000:4000"
+    environment:
+      - GATEWAY_PORT=4000
+      - REDIS_URL=redis://redis:6379
+      - JWT_SECRET_KEY=${JWT_SECRET_KEY}
+      - FRONTEND_URL=http://localhost:3000
+      - USER_SERVICE_URL=http://user-service:4001
+      - CONTENT_SERVICE_URL=http://content-service:4002
+      - NOTIFICATION_SERVICE_URL=http://notification-service:4003
+      - MESSAGING_SERVICE_URL=http://messaging-service:4004
+      - AI_SERVICE_URL=http://ai-service:4005
+    depends_on:
+      redis:
+        condition: service_healthy
+
+  user-service:
+    build: ./services/user-service
+    container_name: anonwork-user
+    ports:
+      - "4001:4001"
+    environment:
+      - USER_SERVICE_PORT=4001
+      - DATABASE_URL=${DATABASE_URL}
+      - JWT_SECRET_KEY=${JWT_SECRET_KEY}
+      - RABBITMQ_URL=amqp://guest:guest@rabbitmq:5672
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+
+  content-service:
+    build: ./services/content-service
+    container_name: anonwork-content
+    ports:
+      - "4002:4002"
+    environment:
+      - CONTENT_SERVICE_PORT=4002
+      - DATABASE_URL=${DATABASE_URL}
+      - REDIS_URL=redis://redis:6379
+      - RABBITMQ_URL=amqp://guest:guest@rabbitmq:5672
+    depends_on:
+      redis:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+
+  notification-service:
+    build: ./services/notification-service
+    container_name: anonwork-notification
+    ports:
+      - "4003:4003"
+    environment:
+      - NOTIFICATION_SERVICE_PORT=4003
+      - DATABASE_URL=${DATABASE_URL}
+      - RABBITMQ_URL=amqp://guest:guest@rabbitmq:5672
+      - EMAIL_USER=${EMAIL_USER}
+      - EMAIL_PASS=${EMAIL_PASS}
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+
+  messaging-service:
+    build: ./services/messaging-service
+    container_name: anonwork-messaging
+    ports:
+      - "4004:4004"
+    environment:
+      - MESSAGING_SERVICE_PORT=4004
+      - DATABASE_URL=${DATABASE_URL}
+      - REDIS_URL=redis://redis:6379
+      - RABBITMQ_URL=amqp://guest:guest@rabbitmq:5672
+    depends_on:
+      redis:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+
+  ai-service:
+    build: ./services/ai-service
+    container_name: anonwork-ai
+    ports:
+      - "4005:4005"
+    environment:
+      - AI_SERVICE_PORT=4005
+      - REDIS_URL=redis://redis:6379
+      - AI_PROVIDER=${AI_PROVIDER}
+      - GROQ_API_KEY=${GROQ_API_KEY}
+      - AI_MODEL_ID=${AI_MODEL_ID}
+
+volumes:
+  redis_data:
+  rabbitmq_data:

@@ -1,4 +1,5 @@
 "use client"
+import { gatewayFetch } from "@/lib/api-client"
 
 import { useState, useEffect } from "react"
 import { AlertTriangle, Shield, CheckCircle, Loader2, X } from "lucide-react"
@@ -50,7 +51,7 @@ export function AIContentWarning({
     setDismissed(false)
 
     try {
-      const res = await fetch("/api/ai/check-privacy", {
+      const res = await gatewayFetch("/api/ai/check-privacy", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ text }),

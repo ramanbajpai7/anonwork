@@ -1,4 +1,5 @@
 "use client"
+import { gatewayFetch } from "@/lib/api-client"
 
 import { useEffect, useState } from "react"
 import { useParams } from "next/navigation"
@@ -34,7 +35,7 @@ export default function CompanyChannelPage() {
   useEffect(() => {
     async function fetchCompanyChannel() {
       try {
-        const res = await fetch(`/api/companies/${companyId}`)
+        const res = await gatewayFetch(`/api/companies/${companyId}`)
         if (res.ok) {
           const data = await res.json()
           setCompany(data.company)

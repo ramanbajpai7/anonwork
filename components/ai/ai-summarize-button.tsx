@@ -1,4 +1,5 @@
 "use client"
+import { gatewayFetch } from "@/lib/api-client"
 
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
@@ -32,7 +33,7 @@ export function AISummarizeButton({ postId, className = "" }: AISummarizeButtonP
     setError(null)
 
     try {
-      const res = await fetch("/api/ai/summarize", {
+      const res = await gatewayFetch("/api/ai/summarize", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ postId }),

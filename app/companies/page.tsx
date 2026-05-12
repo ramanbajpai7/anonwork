@@ -1,4 +1,5 @@
 "use client"
+import { gatewayFetch } from "@/lib/api-client"
 
 import { useEffect, useState } from "react"
 import type { Company } from "@/lib/types"
@@ -25,7 +26,7 @@ export default function CompaniesPage() {
       const params = new URLSearchParams()
       if (search) params.append("search", search)
 
-      const response = await fetch(`/api/companies?${params.toString()}`)
+      const response = await gatewayFetch(`/api/companies?${params.toString()}`)
       if (response.ok) {
         const data = await response.json()
         setCompanies(data.companies || [])

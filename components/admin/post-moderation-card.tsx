@@ -1,4 +1,5 @@
 "use client"
+import { gatewayFetch } from "@/lib/api-client"
 
 import type { Post } from "@/lib/types"
 import { useState } from "react"
@@ -20,7 +21,7 @@ export function PostModerationCard({ post, onAction }: PostModerationCardProps) 
     setActionLoading(true)
 
     try {
-      const response = await fetch(`/api/admin/posts/${post.id}/action`, {
+      const response = await gatewayFetch(`/api/admin/posts/${post.id}/action`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ action, reason: "" }),

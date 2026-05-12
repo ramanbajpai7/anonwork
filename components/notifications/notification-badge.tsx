@@ -1,4 +1,5 @@
 "use client"
+import { gatewayFetch } from "@/lib/api-client"
 
 import { useEffect, useState } from "react"
 import { Bell } from "lucide-react"
@@ -14,7 +15,7 @@ export function NotificationBadge({ onClick }: NotificationBadgeProps) {
   useEffect(() => {
     async function checkNotifications() {
       try {
-        const response = await fetch("/api/notifications")
+        const response = await gatewayFetch("/api/notifications")
         if (response.ok) {
           const data = await response.json()
           const unread = data.notifications?.filter((n: any) => !n.read).length || 0

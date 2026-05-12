@@ -1,4 +1,5 @@
 "use client"
+import { gatewayFetch } from "@/lib/api-client"
 
 import { useEffect, useState } from "react"
 import type { Post } from "@/lib/types"
@@ -50,7 +51,7 @@ export default function PostDetailPage() {
   useEffect(() => {
     async function fetchPost() {
       try {
-        const response = await fetch(`/api/posts/${postId}`)
+        const response = await gatewayFetch(`/api/posts/${postId}`)
         if (response.ok) {
           const data = await response.json()
           setPost(data.post)
