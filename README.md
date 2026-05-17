@@ -2,6 +2,13 @@
 
 A modern, full-stack anonymous workplace platform built with **Next.js**, orchestrated with **Docker Compose** microservices, and powered by **PostgreSQL**, **Redis**, and **RabbitMQ**. This platform enables employees to anonymously share salaries, post reviews, chat in real-time, and leverage AI for content moderation, summarization, and smart replies.
 
+# 🚀 AnonWork – Live Demo
+
+🔗 **Live Application:** [https://www.anonwork.tech/](https://www.anonwork.tech/)
+
+> Experience the live platform here — anonymous workplace discussions, salary sharing, real-time messaging, and AI-powered collaboration tools.
+
+
 ## 🚀 Features
 
 - **Anonymous Feeds & Posts:** Users can post anonymously to company channels, share salaries, and review their workplaces without exposing their identities.
